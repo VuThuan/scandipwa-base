@@ -97,13 +97,26 @@ function composer_install {
   # Check if COMPOSER_AUTH environment variable exists
   if [ -z ${COMPOSER_AUTH+x} ]; then echo "Please set COMPOSER_AUTH environment variable" && exit 1; fi
   # Check environment to install Dev Dependencies on specific ones
-  if [ $MAGENTO_MODE = "developer" ]; then
+  if [ "$MAGENTO_MODE" = "developer" ]; then
     COMPOSER_NO_DEV=""
   fi
 
   # Composer install
   echo "${blue}${bold}Installing magento dependencies${normal}"
   composer install $COMPOSER_NO_DEV --ansi --no-interaction --prefer-dist -v
+}
+
+function composer_update {
+  # Check if COMPOSER_AUTH environment variable exists
+  if [ -z ${COMPOSER_AUTH+x} ]; then echo "Please set COMPOSER_AUTH environment variable" && exit 1; fi
+  # Check environment to install Dev Dependencies on specific ones
+  if [ "$MAGENTO_MODE" = "developer" ]; then
+    COMPOSER_NO_DEV=""
+  fi
+
+  # Composer update
+  echo "${blue}${bold}Installing magento dependencies${normal}"
+  composer update
 }
 
 function magento_database_config {
@@ -267,7 +280,7 @@ function exit_catch {
 # Switch current execution directory to WORKDIR (BASEPATH)
 in_basepath
 # Installing PHP Composer and packages
-composer_install
+#composer_update
 
 # Flushing Magento configuration in Redis
 magento_flush_config
@@ -296,6 +309,11 @@ magento_set_baseurl
 
 # Appling correct folder permissions
 magento_fix_permissions
+php bin/magento firebear:migrate --entity=Categories
+php bin/magento firebear:migrate --entity=ProductAttributes
+php bin/magento firebear:migrate --entity=Products
+php bin/magento firebear:migrate --entity=ProductsMedia
+php bin/magento firebear:migrate --entity=Inventory
 # Flushing all caches, removing maintenance mode
 magento_post_deploy
 

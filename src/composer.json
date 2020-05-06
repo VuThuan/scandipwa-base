@@ -12,7 +12,10 @@
     },
     "require": {
         "magento/product-community-edition": "2.3.3",
-        "scandipwa/installer": "2.0.1"
+        "scandipwa/installer": "2.0.1",
+        "firebear/importexport": "^3.3",
+        "firebear/importexport-msi": "^1.0",
+        "firebear/platform-m1": "^1.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.13.0",
@@ -60,12 +63,16 @@
     },
     "version": "2.3.1",
     "minimum-stability": "stable",
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://repo.magento.com/"
+        },
+        "firebear": {
+            "type": "composer",
+            "url": "https://firebearstudio.com/composer/download/package/type/ce/user/6d61437839a3e1ade5ed0e878eb69489/password/e6c1f85b053d587a194d79a41d1e88c6/"
         }
-    ],
+    },
     "extra": {
         "magento-force": "override"
     }
